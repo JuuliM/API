@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: API sample
+  description: |-
+    This is a sample =penAPI OAD.
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+
+security:
+  - ApiKeyAuth: []
+
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Sample dataset
+  
+paths:
+  /data:
+    get:
+      tags:
+        - Sample dataset
+      summary: Returns a dataset
+      description: Returns a dataset with something more...
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Data'
+        '415':
+          description: Unsupported media type
+/id:
+    post:
+      tags:
+        - Sample dataset
+      summary: Posts an ID
+      description: Accepts an ID and returns associated data
+      requestBody:
+        description: ID object to post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Data'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '415':
+          description: Unsupported media type
+            
+
+components:
+  schemas:
+    Data:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 111
+        forename:
+          type: string
+          example: Roy
+        surname:
+          type: string
+          example: Fielding
+
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
